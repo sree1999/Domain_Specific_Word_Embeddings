@@ -1,5 +1,5 @@
 # Jiffy_NLP
-Collaborated in a group of four to build domain-specific word embeddings for business/financial domains. 
+Collaborated in a group of four to build domain-specific word embeddings for business/financial domains. \n
 Built a corpus by scraping Wikipedia and Investopedia using Scrapy and Beautiful Soup 
 Implemented Word2Vec using the corpus of words in the custom-built dataset. 
 Developed an interactive Helper module, to aid developers in the task of finding appropriate functions from financial libraries available in Python. 
