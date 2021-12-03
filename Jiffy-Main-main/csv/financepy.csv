@@ -1,0 +1,385 @@
+func,arg,desc
+financepy.finutils.FinAmount,"FinAmount(notional: float = ONE_MILLION,
+currencyType: FinCurrencyTypes = FinCurrencyTypes.NONE):",A FinAmount is a holder for an amount in a specific currency.
+financepy.finutils.FinAmount.amount,amount():,return self. Notional
+financepy.finutils.FinCalender,FinCalendar(calendarType: FinCalendarTypes):,Create a calendar based on a specified calendar type.
+financepy.finutils.FinCalender.adjust,"adjust(dt: FinDate,
+busDayConventionType: FinBusDayAdjustTypes):",Adjust a payment date if it falls on a holiday according to the specified business day convention
+financepy.finutils.FinCalender.addBusinessDays,"addBusinessDays(startDate: FinDate,
+numDays: int):","Returns a new date that is numDays business days after FinDate. All holidays in the chosen calendar are
+assumed not business days."
+financepy.finutils.FinCalender.isBusinessDay,isBusinessDay(dt: FinDate):,"Determines if a date is a business day according to the specified calendar. If it is it returns True, otherwise
+False."
+financepy.finutils.FinCalender.getHolidayList,getHolidayList(year: float):,generates a list of holidays in a specific year for the specified calendar. Useful for diagnostics.
+financepy.finutils.FinCalender.easterMonday,easterMonday(year: float):,"Get the day in a given year that is Easter Monday. This is not easy to compute so we rely on a pre-calculated
+array."
+financepy.finutils.FinDate,FinDate(*args):,"Create a date given a day of month, month and year. The arguments must be in the order of day (of month),
+month number and then the year. The year must be a 4-digit number greater than or equal to 1900. Example
+Input: start date = FinDate(’1-1-2018’, ’start date = FinDate(1, 1, 2018)"
+financepy.finutils.FinDate.isWeekend,isWeekend():,returns True if the date falls on a weekend.
+financepy.finutils.FinDate.addDays,addDays(numDays: int = 1):,Returns a new date that is numDays after the FinDate. I also make it possible to go backwards a number of days.
+financepy.finutils.FinDate.addWeekDays,addWeekDays(numDays: int):,"Returns a new date that is numDays working days after FinDate. Note that only weekends are taken into
+account. Other Holidays are not. If you want to include regional holidays then use addBusinessDays from
+the FinCalendar class."
+financepy.finutils.FinDate.addMonths,"addMonths(mm: (list, int)):","Returns a new date that is mm months after the FinDate. If mm is an integer or float you get back a single
+date. If mm is a vector you get back a vector of dates."
+financepy.finutils.FinDate.addYears,"addYears(yy: (np.ndarray, float)):","Returns a new date that is yy years after the FinDate. If yy is an integer or float you get back a single date.
+If yy is a list you get back a vector of dates."
+financepy.finutils.FinDate.nextCDSDate,nextCDSDate(mm: int = 0):,"Returns a CDS date that is mm months after the FinDate. If no argument is supplied then the next CDS date
+after today is returned."
+financepy.finutils.FinDate.thirdWednesdayOfMonth,"thirdWednesdayOfMonth(m: int, # Month number
+y: int): # Year number","For a specific month and year this returns the day number of the 3rd Wednesday by scanning through dates
+in the third week."
+"financepy.finutils.FinDate,nextMMDate",nextIMMDate():,"This function returns the next IMM date after the current date This is a 3rd Wednesday of Jun, March, Sep
+or December. For an IMM contract the IMM date is the First Delivery Date of the futures contract."
+financepy.finutils.FinDate.addTenor,addTenor(tenor: str):,"Return the date following the FinDate by a period given by the tenor which is a string consisting of a
+number and a letter, the letter being d, w, m , y for day, week, month or year. This is case independent.
+For example 10Y means 10 years while 120m also means 10 years. The date is NOT weekend or holiday
+calendar adjusted. This must be done AFTERWARDS."
+financepy.finutils.FinDate.datetime,datetime():,Returns a datetime of the date
+financepy.finutils.FinDate.str,str(format):,returns a formatted string of the date
+financepy.finutils.FinDate.setDateFormatType,setDateFormatType(formatType):,global gDateFormatType
+financepy.finutils.FinDate.isLeapYear,isLeapYear(y: int):,"Test whether year y is a leap year - if so return True, else False"
+financepy.finutils.FinDate.calculateList,calculateList():,"Calculate list of dates so that we can do quick lookup to get the number of dates since 1 Jan 1900 (inclusive)
+BUT TAKING INTO ACCOUNT THE FACT THAT EXCEL MISTAKENLY CALLS 1900 A LEAP YEAR. For
+us, agreement with Excel is more important than this leap year error and in any case, we will not usually be
+calculating day differences with start dates before 28 Feb 1900. Note that Excel inherited this ”BUG” from
+LOTUS 1-2-3."
+financepy.finutils.FinDate.dateIndex,"dateIndex(d, m, y):",idx = (y-gStartYear) * 12 * 31 + (m-1) * 31 + (d-1)
+financepy.finutils.FinDate.dateFromIndex,dateFromIndex(idx):,"Reverse mapping from index to date. Take care with numba as it can do weird rounding on the integer. Seems
+OK now."
+financepy.finutils.FinDate.weekDay,weekDay(dayCount):,weekday = (dayCount+5)
+financepy.finutils.FinDate.dailyWorkingDaySchedule,"dailyWorkingDaySchedule(self,
+startDate: FinDate,
+endDate: FinDate):","Returns a list of working dates between startDate and endDate. This function should be replaced by dateRange
+once addTenor allows for working days."
+financepy.finutils.FinDate.datediff,"datediff(d1: FinDate,
+d2: FinDate):",Calculate the number of days between two Findates.
+financepy.finutils.FinDate.fromDatetime,fromDatetime(dt: FinDate):,"Construct a FinDate from a datetime as this is often needed if we receive inputs from other Python objects
+such as Pandas dataframes"
+financepy.finutils.FinDate.daysInMonth,"daysInMonth(m, y):",Get the number of days in the month (1-12) of a given year y.
+financepy.finutils.FinDate.dateRange,"dateRange(startDate: FinDate,
+endDate: FinDate,
+tenor: str = ""1D""):","Returns a list of dates between startDate (inclusive) and endDate (inclusive). The tenor represents the
+distance between two consecutive dates and is set to daily by default."
+financepy.finutils.FinDate.testType,testType():,global gDateFormatType
+financepy.finutils.FinDayCount,FinDayCount(dccType: FinDayCountTypes):,Create Day Count convention by passing in the Day Count Type.
+financepy.finutils.FinDayCount.yearFrac,"yearFrac(dt1: FinDate, # Start of coupon period
+dt2: FinDate, # Settlement (for bonds) or period end(swaps)
+dt3: FinDate = None, # End of coupon period for accrued
+freqType: FinFrequencyTypes = FinFrequencyTypes.ANNUAL,
+isTerminationDate: bool = False): # Is dt2 a termination date","This method performs two functions: 1) It calculates the year fraction between dates dt1 and dt2 using
+the specified day count convention which is useful for calculating year fractions for Libor products whose
+flows are day count adjusted. In this case we will set dt3 to be None 2) This function is also for calculating
+bond accrued where dt1 is the last coupon date, dt2 is the settlement date of the bond and date
+dt3 must be set to the next coupon date. You will also need to provide a coupon frequency for some
+conventions. This seems like a useful source: https://www.eclipsesoftware.biz/DayCountConventions.html
+Wikipedia also has a decent survey of the conventions https://en.wikipedia.org/wiki/Day count convention
+and http://data.cbonds.info/files/cbondscalc/Calculator.pdf"
+financepy.finutils.FinDayCountisLastDayOfFeb,isLastDayOfFeb(dt: FinDate):,# Return true if we are on the last day of February
+financepy.finutils.FinError,FinError(message: str):,Create FinError object by passing a message string.
+financepy.finutils.FinError.func_name,func_name():,"return traceback.extract stack(None, 2)[0][2]"
+financepy.finutils.FinError.suppressErrors,suppressErrors():,# print(sys.tracebacklimit)
+financepy.finutils.FinFrequency,FinFrequency(freqType):,"This is a function that takes in a Frequency Type and returns an integer for the number of times a year a
+payment occurs."
+financepy.finutils.FinHelperFunctions,"gridIndex(t, gridTimes):",helper functions
+financepy.finutils.FinHelperFunctions.betaVectorToCorrMatrix,betaVectorToCorrMatrix(betas):,Convert a one-factor vector of factor weights to a square correlation matrix.
+financepy.finutils.FinHelperFunctions.pv01Times,"pv01Times(t: float,
+f: float):","Calculate a bond style pv01 by calculating remaining coupon times for a bond with t years to maturity and
+a coupon frequency of f. The order of the list is reverse time order - it starts with the last coupon date and
+ends with the first coupon date."
+financepy.finutils.FinHelperFunctions.timesFromDates,"timesFromDates(dt: FinDate,
+valuationDate: FinDate,
+dayCountType: FinDayCountTypes = None):","If a single date is passed in then return the year from valuation date but if a whole vector of dates is passed
+in then convert to a vector of times from the valuation date. The output is always a numpy vector of times
+which has only one element if the input is only one date."
+financepy.finutils.FinHelperFunctions.checkVectorDifferences,"checkVectorDifferences(x: np.ndarray,
+y: np.ndarray,
+tol: float = 1e-6):",Compare two vectors elementwise to see if they are more different than tolerance.
+financepy.finutils.FinHelperFunctions.checkDate,checkDate(d: FinDate):,Check that input d is a FinDate.
+financepy.finutils.FinHelperFunctions.dump,dump(obj):,Get a list of all of the attributes of a class (not built in ones)
+financepy.finutils.FinHelperFunctions.printTree,"printTree(array: np.ndarray,
+depth: int = None):",Function that prints a binomial or trinonial tree to screen for the purpose of debugging.
+financepy.finutils.FinHelperFunctions.inputTime,"inputTime(dt: FinDate,
+curve):","Validates a time input in relation to a curve. If it is a float then it returns a float as long as it is positive. If it
+is a FinDate then it converts it to a float. If it is a Numpy array then it returns the array as long as it is all
+positive."
+financepy.finutils.FinHelperFunctions.listdiff,"listdiff(a: np.ndarray,
+b: np.ndarray):",Calculate a vector of differences between two equal sized vectors.
+financepy.finutils.FinHelperFunctions.dotproduct,"dotproduct(xVector: np.ndarray,
+yVector: np.ndarray):",Fast calculation of dot product using Numba.
+financepy.finutils.FinHelperFunctions.frange,"frange(start: int,
+stop: int,
+step: int):","fast range function that takes start value, stop value and step."
+financepy.finutils.FinHelperFunctions.normaliseWeights,normaliseWeights(wtVector: np.ndarray):,Normalise a vector of weights so that they sum up to 1.0.
+financepy.finutils.FinHelperFunctions.labelToString,"labelToString(label: str,
+value: float,
+separator: str = ""\n"",
+listFormat: bool = False):",Format label/value pairs for a unified formatting.
+financepy.finutils.FinHelperFunctions.tableToString,"tableToString(header: str,
+valueTable,
+floatPrecision=""10.7f""):",Format a 2D array into a table-like string.
+financepy.finutils.FinHelperFunctions.toUsableType,toUsableType(t):,Convert a type such that it can be used with ‘isinstance‘
+financepy.finutils.FinHelperFunctions.uniformToDefaultType,"uniformToDefaultTime(u, t, v):",Fast mapping of a uniform random variable to a default time given a survival probability curve.
+financepy.finutils.FinHelperFunctions.accruedTree,"accruedTree(gridTimes: np.ndarray,
+gridFlows: np.ndarray,
+face: float):","Fast calulation of accrued interest using an Actual/Actual type of convention. This does not calculate according
+to other conventions."
+financepy.finutils.FinHelperFunctions.checkArgumentTypes,"checkArgumentTypes(func, values):","Check that all values passed into a function are of the same type as the function annotations. If a value has
+not been annotated, it will not be checked."
+financepy.finutils.FinSchedule,"FinSchedule(effectiveDate: FinDate, # Also known as the start date
+terminationDate: FinDate, # Also known as the termination date
+freqType: FinFrequencyTypes = FinFrequencyTypes.ANNUAL,
+calendarType: FinCalendarTypes = FinCalendarTypes.WEEKEND,
+busDayAdjustType: FinBusDayAdjustTypes = FinBusDayAdjustTypes.FOLLOWING,
+dateGenRuleType: FinDateGenRuleTypes = FinDateGenRuleTypes.BACKWARD,
+adjustTerminationDate:bool = False):","Create FinSchedule object which calculates a sequence of dates in line with market convention for fixed
+income products."
+financepy.finutils.FinSchedule.scheduleDates,scheduleDates():,Returns a list of the schedule of FinDates.
+financepy.finutils.FinStatistics.mean,mean(x: float):,Calculate the arithmetic mean of a vector of numbers x.
+financepy.finutils.FinStatistics.stdev,stdev(x: ndarray):,Calculate the standard deviation of a vector of numbers x.
+financepy.finutils.FinStatistics.stderr,stderr(x: ndarray):,Calculate the standard error estimate of a vector of numbers x.
+financepy.finutils.FinStatistics.var,var(x: ndarray):,Calculate the variance of a vector of numbers x.
+financepy.finutils.FinStatistics.moment,"moment(x: ndarray,
+m: int):",Calculate the m-th moment of a vector of numbers x.
+financepy.finutils.FinStatistics.correlation,"correlation(x1: ndarray,
+x2: ndarray):",Calculate the correlation between two series x1 and x2.
+financepy.finutils.FinMath.accruedInterpolator,"accruedInterpolator(tset: float, # Settlement time in years
+couponTimes: np.ndarray,
+couponAmounts: np.ndarray):","Fast calulation of accrued interest using an Actual/Actual type of convention. This does not calculate according
+to other conventions."
+financepy.finutils.FinMath.isLeapYear,isLeapYear(y: int):,"Test whether year y is a leap year - if so return True, else False"
+financepy.finutils.FinMath.scale,"scale(x: np.ndarray,
+factor: float):",Scale all of the elements of an array by the same amount factor.
+financepy.finutils.FinMath.testMonocity,testMonotonicity(x: np.ndarray):,Check that an array of doubles is monotonic and strictly increasing.
+financepy.finutils.FinMath.testRange,"testRange(x: np.ndarray,
+lower: float,
+upper: float):",Check that all of the values of an array fall between a lower and upper bound.
+financepy.finutils.FinMath.maximum,"maximum(a: np.ndarray,
+b: np.ndarray):","Determine the array in which each element is the maximum of the corresponding element in two equally
+length arrays a and b."
+financepy.finutils.FinMath.maxaxis,maxaxis(s: np.ndarray):,Perform a search for the vector of maximum values over an axis of a 2D Numpy Array
+financepy.finutils.FinMath.minaxis,minaxis(s: np.ndarray):,Perform a search for the vector of minimum values over an axis of a 2D Numpy Array
+financepy.finutils.FinMath.covar,"covar(a: np.ndarray,
+b: np.ndarray):","Calculate the Covariance of two arrays of numbers. TODO: check that this works well for Numpy Arrays
+and add NUMBA function signature to code. Do test of timings against Numpy."
+financepy.finutils.FinMath.pairGCD,"pairGCD(v1: float,
+v2: float):","Determine the Greatest Common Divisor of two integers using Euclid’s algorithm. TODO - compare this
+with math.gcd(a,b) for speed. Also examine to see if I should not be declaring inputs as integers for NUMBA."
+financepy.finutils.FinMath.nprime,nprime(x: float):,Calculate the first derivative of the Cumulative Normal CDF which is simply the PDF of the Normal Distribution
+financepy.finutils.FinMath.heaviside,heaviside(x: float):,Calculate the Heaviside function for x
+financepy.finutils.FinMath.frange,"frange(start: int,
+stop: int,
+step: int):",Calculate a range of values from start in steps of size step. Ends as soon as the value equals or exceeds stop.
+financepy.finutils.FinMath.normpdf,normpdf(x: float):,Calculate the probability density function for a Gaussian (Normal) function at value x
+financepy.finutils.FinMath.normcdf_fast,normcdf_fast(x: float):,Fast Normal CDF function based on XXX
+financepy.finutils.FinMath.normcdf_integrate,normcdf_integrate(x: float):,"Calculation of Normal Distribution CDF by simple integration which can become exact in the limit of the
+number of steps tending towards infinity. This function is used for checking as it is slow since the number of
+integration steps is currently hardcoded to 10,000."
+financepy.finutils.FinMath.normcdf_slow,normcdf_slow(z: float):,"Calculation of Normal Distribution CDF accurate to 1d-15. This method is faster than integration but slower
+than other approximations. Reference: J.L. Schonfelder, Math Comp 32(1978), pp 1232-1240."
+financepy.finutils.FinMath.normcdf,"normcdf(x: float,
+fastFlag: int):","This is the Normal CDF function which forks to one of three of the implemented approximations. This is
+based on the choice of the fast flag variable. A value of 1 is the fast routine, 2 is the slow and 3 is the even
+slower integration scheme."
+financepy.finutils.FinMath.N,N(x: float):,"This is the shortcut to the default Normal CDF function and currently is hardcoded to the fastest of the
+implemented routines. This is the most widely used way to access the Normal CDF."
+financepy.finutils.FinMath.phi3,"phi3(b1: float,
+b2: float,
+b3: float,
+r12: float,
+r13: float,
+r23: float):","Bivariate Normal CDF function to upper limits b1 and b2 which uses integration to perform the innermost
+integral. This may need further refinement to ensure it is optimal as the current range of integration is from
+-7 and the integration steps are dx = 0.001. This may be excessive."
+financepy.finutils.FinMath.norminvcdf,norminvcdf(p):,"This algorithm computes the inverse Normal CDF and is based on the algorithm found at
+(http:#home.online.no/ pjacklam/notes/invnorm/) which is by John Herrero (3-Jan-03)"
+financepy.finutils.FinMath.M,"M(a, b, c):","return phi2(a, b, c)"
+financepy.finutils.FinMath.phi2,"phi2(h1, hk, r):",Drezner and Wesolowsky implementation of bi-variate normal
+financepy.finutils.FinMath.cholesky,cholesky(rho):,Numba-compliant wrapper around Numpy cholesky function.
+financepy.finutils.FinMath.corrMatrixGenerator,"corrMatrixGenerator(rho, n):","Utility function to generate a full rank n x n correlation matrix with a flat correlation structure and value
+rho."
+financepy.market.curves.FinDiscountCurve,"FinDiscountCurve(valuationDate: FinDate,
+dfDates: list,
+dfValues: np.ndarray,
+interpType: FinInterpTypes = FinInterpTypes.FLAT_FWD_RATES):","Create the discount curve from a vector of times and discount factors with an anchor date and specify an
+interpolation scheme. As we are explicity linking dates and discount factors, we do not need to specify any
+compounding convention or day count calculation since discount factors are pure prices. We do however
+need to specify a convention for interpolating the discount factors in time."
+financepy.market.curves.FinDiscountCurve.zeroRate,"zeroRate(dts: (list, FinDate),
+freqType: FinFrequencyTypes = FinFrequencyTypes.CONTINUOUS,
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_360):","Calculation of zero rates with specified frequency. This function can return a vector of zero rates given a
+vector of dates so must use Numpy functions. Default frequency is a continuously compounded rate."
+financepy.market.curves.FinDiscountCurve.swapRate,"swapRate(startDate: FinDate,
+maturityDate: (list, FinDate),
+freqType=FinFrequencyTypes.ANNUAL,
+dayCountType: FinDayCountTypes = FinDayCountTypes.THIRTY_E_360):","Calculate the swap rate to maturity date. This is the rate paid by a swap that has a price of par today. This
+is the same as a Libor swap rate except that we do not do any business day adjustments."
+financepy.market.curves.FinDiscountCurve.df,"df(dt: (list, FinDate)):",Function to calculate a discount factor from a date or a vector of dates.
+financepy.market.curves.FinDiscountCurve.survProb,survProb(dt: FinDate):,"This returns a survival probability to a specified date based on the assumption that the continuously compounded
+rate is a default hazard rate in which case the survival probability is directly analagous to a discount
+factor."
+financepy.market.curves.FinDiscountCurve.fwd,fwd(dts: FinDate):,"Calculate the continuously compounded forward rate at the forward FinDate provided. This is done by
+perturbing the time by one day only and measuring the change in the log of the discount factor divided by
+the time increment dt. I am assuming continuous compounding over the one date."
+financepy.market.curves.FinDiscountCurve.bump,bump(bumpSize: float):,"Adjust the continuously compounded forward rates by a perturbation upward equal to the bump size and
+return a curve objet with this bumped curve. This is used for interest rate risk."
+financepy.market.curves.FinDiscountCurve.fwdRate,"fwdRate(startDate: (list, FinDate),
+dateOrTenor: (FinDate, str),
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_360):","Calculate the forward rate between two forward dates according to the specified day count convention. This
+defaults to Actual 360. The first date is specified and the second is given as a date or as a tenor which is
+added to the first date."
+financepy.market.curves.FinDiscountCurveFlat,"FinDiscountCurveFlat(valuationDate: FinDate,
+flatRate: (float, np.ndarray),
+freqType: FinFrequencyTypes = FinFrequencyTypes.CONTINUOUS,
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_ACT_ISDA):","Create a discount curve which is flat. This is very useful for quick testing and simply requires a curve date a
+rate and a compound frequency. As we have entered a rate, a corresponding day count convention must be
+used to specify how time periods are to be measured. As the curve is flat, no interpolation scheme is required."
+financepy.market.curves.FinDiscountCurveFlat.bump,bump(bumpSize: float):,"Creates a new FinDiscountCurveFlat object with the entire curve bumped up by the bumpsize. All other
+parameters are preserved."
+financepy.market.curves.FinDiscountCurveFlat.df,"df(dates: (FinDate, list)):","Return discount factors given a single or vector of dates. The discount factor depends on the rate and this in
+turn depends on its compounding frequency and it defaults to continuous compounding. It also depends on
+the day count convention. This was set in the construction of the curve to be ACT ACT ISDA."
+financepy.market.curves.FinDiscountCurveNS,"FinDiscountCurveNS(valuationDate: FinDate,
+beta0: float,
+beta1: float,
+beta2: float,
+tau: float,
+freqType: FinFrequencyTypes = FinFrequencyTypes.CONTINUOUS,
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_ACT_ISDA):","Creation of a FinDiscountCurveNS object. Parameters are provided individually for beta0, beta1, beta2 and
+tau. The zero rates produced by this parametrisation have an implicit compounding convention that defaults
+to continuous but which can be overridden"
+financepy.market.curves.FinDiscountCurveNS.zeroRate,"zeroRate(dates: (list, FinDate),
+freqType: FinFrequencyTypes = FinFrequencyTypes.CONTINUOUS,
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_360):","Calculation of zero rates with specified frequency according to NS parametrisation. This method overrides
+that in FinDiscountCurve. The parametrisation is not strictly in terms of continuously compounded zero
+rates, this function allows other compounding and day counts. This function returns a single or vector of
+zero rates given a vector of dates so must use Numpy functions. The default frequency is a continuously
+compounded rate and ACT ACT day counting."
+financepy.market.curves.FinDiscountCurveNS.df,"df(dates: (FinDate, list)):","Return discount factors given a single or vector of dates. The discount factor depends on the rate and this in
+turn depends on its compounding frequency and it defaults to continuous compounding. It also depends on
+the day count convention. This was set in the construction of the curve to be ACT ACT ISDA."
+financepy.market.curves.FinDiscountCurveNSS,"FinDiscountCurveNSS(valuationDate: FinDate,
+beta0: float,
+beta1: float,
+beta2: float,
+beta3: float,
+tau1: float,
+tau2: float,
+freqType: FinFrequencyTypes = FinFrequencyTypes.CONTINUOUS,
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_ACT_ISDA):","Create a FinDiscountCurveNSS object by passing in curve valuation date plus the 4 different beta values and
+the 2 tau values. The zero rates produced by this parametrisation have an implicit compounding convention
+that defaults to continuous but can be overriden."
+financepy.market.curves.FinDiscountCurveNSS.zeroRate,"zeroRate(dates: (list, FinDate),
+freqType: FinFrequencyTypes = FinFrequencyTypes.CONTINUOUS,
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_360):","Calculation of zero rates with specified frequency according to NSS parametrisation. This method overrides
+that in FinDiscountCurve. The NSS parametrisation is no strictly terms of continuously compounded zero
+rates, this function allows other compounding and day counts. This function returns a single or vector of
+zero rates given a vector of dates so must use Numpy functions. The default frequency is a continuously
+compounded rate and ACT ACT day counting."
+financepy.market.curves.FinDiscountCurveRate.df,"df(dates: (FinDate, list)):","Return discount factors given a single or vector of dates. The discount factor depends on the rate and this in
+turn depends on its compounding frequency and it defaults to continuous compounding. It also depends on
+the day count convention. This was set in the construction of the curve to be ACT ACT ISDA."
+financepy.market.curves.FinDiscountCurvePoly,"FinDiscountCurvePoly(valuationDate: FinDate,
+coefficients: (list, np.ndarray),
+freqType: FinFrequencyTypes = FinFrequencyTypes.CONTINUOUS,
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_ACT_ISDA):","Create zero rate curve parametrised using a cubic curve from coefficients and specifying a compounding
+frequency type and day count convention."
+financepy.market.curves.FinDiscountCurvePoly.zeroRate,"zeroRate(dts: (list, FinDate),
+freqType: FinFrequencyTypes = FinFrequencyTypes.CONTINUOUS,
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_360):","Calculation of zero rates with specified frequency according to polynomial parametrisation. This method
+overrides FinDiscountCurve. The parametrisation is not strictly in terms of continuously compounded zero
+rates, this function allows other compounding and day counts. This function returns a single or vector of
+zero rates given a vector of dates so must use Numpy functions. The default frequency is a continuously
+compounded rate and ACT ACT day counting."
+financepy.market.curves.FinDiscountCurvePoly.df,"df(dates: (list, FinDate)):","Calculate the fwd rate to maturity date but with times as inputs. This function is used internally and should
+be discouraged for external use. The compounding frequency defaults to that specified in the constructor of
+the curve object."
+financepy.market.curves.FinDiscountCurvePWF,"FinDiscountCurvePWF(valuationDate: FinDate,
+zeroDates: list,
+zeroRates: (list, np.ndarray),
+freqType: FinFrequencyTypes = FinFrequencyTypes.CONTINUOUS,
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_ACT_ISDA):","Creates a discount curve using a vector of times and zero rates that assumes that the zero rates are piecewise
+flat."
+financepy.market.curves.FinDiscountCurvePWF.df,"df(dates: (FinDate, list)):","Return discount factors given a single or vector of dates. The discount factor depends on the rate and this in
+turn depends on its compounding frequency and it defaults to continuous compounding. It also depends on
+the day count convention. This was set in the construction of the curve to be ACT ACT ISDA."
+financepy.market.curves.FinDiscountCurvePWL,"FinDiscountCurvePWL(valuationDate: FinDate,
+zeroDates: list,
+zeroRates: (list, np.ndarray),
+freqType: FinFrequencyTypes = FinFrequencyTypes.CONTINUOUS,
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_ACT_ISDA):",Curve is defined by a vector of increasing times and zero rates.
+financepy.market.curves.FinDiscountCurvePWL.df,"df(dates: (FinDate, list)):","Return discount factors given a single or vector of dates. The discount factor depends on the rate and this in
+turn depends on its compounding frequency and it defaults to continuous compounding. It also depends on
+the day count convention. This was set in the construction of the curve to be ACT ACT ISDA."
+financepy.market.curves.FinDiscountCurveZeros,"FinDiscountCurveZeros(valuationDate: FinDate,
+zeroDates: list,
+zeroRates: (list, np.ndarray),
+freqType: FinFrequencyTypes = FinFrequencyTypes.ANNUAL,
+dayCountType: FinDayCountTypes = FinDayCountTypes.ACT_ACT_ISDA,
+interpType: FinInterpTypes = FinInterpTypes.FLAT_FWD_RATES):","Create the discount curve from a vector of dates and zero rates factors. The first date is the curve anchor.
+Then a vector of zero dates and then another same-length vector of rates. The rate is to the corresponding
+date. We must specify the compounding frequency of the zero rates and also a day count convention for
+calculating times which we must do to calculate discount factors. Finally we specify the interpolation scheme
+for off-grid dates."
+financepy.market.curves.FinInterpolator,FinInterpolator(interpolatorType: FinInterpTypes):,none
+financepy.market.curves.FinInterpolator.fit,"fit(times: np.ndarray,
+dfs: np.ndarray):",# Second derivatives at left is zero and first derivative at # right is clamped to zero.
+financepy.market.curves.FinInterpolator.interpolate,interpolate(t: float):,"Interpolation of discount factors at time x given discount factors at times provided using one of the methods
+in the enum FinInterpTypes. The value of x can be an array so that the function is vectorised."
+financepy.market.curves.FinInterpolator.interpolate,"interpolate(t: (float, np.ndarray), # time or array of times
+times: np.ndarray, # Vector of times on grid
+dfs: np.ndarray, # Vector of discount factors
+method: int): # Interpolation method which is value of enum","Fast interpolation of discount factors at time x given discount factors at times provided using one of the
+methods in the enum FinInterpTypes. The value of x can be an array so that the function is vectorised."
+financepy.market.volatility.FinEquityVolCurve,"FinEquityVolCurve(curveDate,
+expiryDate,
+strikes,
+volatilities,
+polynomial=3):",finance equity volume curve
+financepy.market.volatility.FinEquityVolCurve.volatility,volatility(strike):,Return the volatility for a strike using a given polynomial interpolation.
+financepy.market.volatility.FinEquityVolCurve.calculatePDF,calculatePDF():,"calculate the probability density function of the underlying using the volatility smile or skew curve following
+the approach set out in Breedon and Litzenberger."
+financepy.market.volatility.FinFXVolSurface,"FinFXVolSurface(valueDate,
+spotFXRate,
+currencyPair,
+notionalCurrency,
+domDiscountCurve,
+forDiscountCurve,
+tenors,
+atmVols,
+mktStrangle25DeltaVols,
+riskReversal25DeltaVols,
+atmMethod=FinFXATMMethod.FWD_DELTA_NEUTRAL,
+deltaMethod=FinFXDeltaMethod.SPOT_DELTA):",finance foreign exchange volume surface
+financepy.market.volatility.FinFXVolSurface.volFunction,"volFunction(K, tenorIndex):","Return the volatility for a strike using a given polynomial interpolation following Section 3.9 of Iain Clark
+book."
+financepy.market.volatility.FinFXVolSurface.buildVolSurface,buildVolSurface():,build volume surface
+financepy.market.volatility.FinFXVolSurface.solveForSmileStrike,"solveForSmileStrike(vanillaOption,
+deltaTarget,
+tenorIndex):","Solve for the strike that sets the delta of the option equal to the target value of delta allowing the volatility to
+be a function of the strike."
+financepy.market.volatility.FinFXVolSurface.checkCalibration,checkCalibration():,check calibration
+financepy.market.volatility.FinFXVolSurface.plotVolCurves,plotVolCurves():,plot volume curves
+financepy.market.volatility.FinFXVolSurface.obj,"obj(cvec, *args):","Return a function that is minimised when the ATM, MS and RR vols have been best fitted using the parametric
+volatility curve respresented by cvec"
+financepy.market.volatility.FinFXVolSurface.deltaFit,"deltaFit(K, *args):",deltafit
+financepy.market.volatility.FinlborCapVolCurve,"FinIborCapVolCurve(curveDate, # Valuation date for cap volatility
+capMaturityDates, # curve date + maturity dates for caps
+capSigmas, # Flat cap volatility for cap maturity dates
+dayCountType):","Create a cap/floor volatility curve given a curve date, a list of cap maturity dates and a vector of cap
+volatilities. To avoid confusion first date of the capDates must be equal to the curve date and first cap
+volatility for this date must equal zero. The internal times are calculated according to the provided day
+count convention. Note cap and floor volatilities are the same for the same strike and tenor, I just refer to
+cap volatilities in the code for code simplicity."
+financepy.market.volatility.FinlborCapVolCurve.generateCapletVols,generateCapletVols():,"Bootstrap caplet volatilities from cap volatilities using similar notation to Hull’s book (page 32.11). The first
+volatility in the vector of caplet vols is zero."
+financepy.market.volatility.FinlborCapVolCurve.capletVol,capletVol(dt):,caplet volatility
+financepy.market.volatility.FinlborCapVolCurve.capVol,capVol(dt):,"Return the cap flat volatility for a specific cap maturity date for the last caplet/floorlet in the cap/floor. The
+volatility interpolation is piecewise flat."
+financepy.market.volatility.FinlborCapVolCurveFn,"FinIborCapVolCurveFn(curveDate,
+a,
+b,
+c,
+d):",finance labour capital volume curve function
+financepy.market.volatility.FinlborCapVolCurveFn.capFloorletVol,capFloorletVol(dt):,Return the caplet volatility.
