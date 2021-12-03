@@ -1,0 +1,23 @@
+Function,Syntax,Details
+Ticker(),"yf.Ticker(""ticker"")",access ticker data in a more pythonic way
+info,ticker.info,get stock info
+hist(),"ticker.history(period=""max"", start, end)",get historical market data
+actions,ticker.actions,"show actions (dividends, splits)"
+dividends,ticker.dividends, show dividends
+splits,ticker.splits, show splits
+financials,ticker.financials, show financials
+quarterly_financials,ticker.quarterly_financials, show quarterly financials
+major_holders,ticker.major_holders, show major holders
+institutional_holders,ticker.institutional_holders, show institutional holders
+balance_sheet,ticker.balance_sheet, show balance sheet
+quarterly_balance_sheet,ticker.quarterly_balance_sheet, show quarterly balance sheet
+cashflow,ticker.cashflow, show cashflow
+quarterly_cashflow,ticker.quarterly_cashflow, show quarterly cashflow
+earnings,ticker.earnings, show earnings
+quarterly_earnings,ticker.quarterly_earnings, show quarterly earnings
+sustainability,ticker.sustainability, show sustainability
+recommendations,ticker.recommendations, show analysts recommendations
+calendar,ticker.calendar," show next event (earnings, etc)"
+isin,ticker.isin,"show ISIN code - *experimental* , ISIN = International Securities Identification Number"
+options,ticker.options, show options expirations
+option_chain(),opt = ticker.option_chain('YYYY-MM-DD'),"get option chain for specific expiration ,  data available via: opt.calls, opt.puts"
